@@ -5,195 +5,71 @@
 <title>Опрос</title>
 
 <style>
-body{
-margin:0;
-font-family: Arial;
-background: linear-gradient(180deg, #0a2a4a 0%, #0d3b6e 25%, #1a5a9e 55%, #1e3f7a 80%, #0f2050 100%);
-min-height:100vh;
-color:white;
-text-align:center;
-}
-
-.header{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-padding:15px;
-background:rgba(255,255,255,0.08);
-font-size:18px;
-font-weight:bold;
-backdrop-filter: blur(6px);
-cursor:pointer;
-z-index:10;
-letter-spacing:2px;
-}
-
-.container{
-margin-top:80px;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
-flex-direction:column;
-font-size:24px;
-}
-
-.step{display:none;}
-.step.active{display:flex; flex-direction:column; align-items:center;}
-
-button{
-padding:14px 22px;
-margin:10px;
-font-size:20px;
-border:none;
-border-radius:12px;
-cursor:pointer;
-}
-
-#yesBtn{
-position:relative;
-}
-
-.black{
-background:black;
-color:white;
-}
-
-/* Анимация "я люблю тебя" — красные буквы */
-.love{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:34px;
-font-weight:bold;
-color:#ff2222;
-opacity:0;
-transition:opacity 0.5s;
-pointer-events:none;
-letter-spacing:2px;
-text-shadow: 0 0 20px rgba(255,0,0,0.5);
-}
-
-/* Блок s5 */
-#s5 {
-  position: relative;
-}
-
-/* Lumos — горизонтально, справа от блока, заметно но не кричит */
-#lumos-word {
-  position: absolute;
-  right: -90px;
-  top: 40%;
-  font-size: 15px;
-  letter-spacing: 5px;
-  color: rgba(180, 215, 255, 0.5);
-  cursor: pointer;
-  user-select: none;
-  font-style: italic;
-  transition: color 0.4s, text-shadow 0.4s;
-  text-transform: uppercase;
-}
-#lumos-word:hover {
-  color: rgba(180, 215, 255, 0.75);
-  text-shadow: 0 0 12px rgba(180,215,255,0.4);
-}
-
-/* Полупрозрачный текст при клике на Lumos */
-#lumos-reveal {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 28px;
-  color: rgba(255,255,255,0.42);
-  font-style: italic;
-  pointer-events: none;
-  text-align: center;
-  letter-spacing: 2px;
-  z-index: 100;
-  transition: opacity 0.8s;
-  opacity: 0;
-}
+body { font-family: Arial; text-align:center; background:#111; color:white; }
+.step { display:none; padding:40px; }
+.step.active { display:block; }
+button { padding:15px 25px; margin:10px; font-size:18px; cursor:pointer; }
+#yesBtn { position:relative; }
+#love { opacity:0; transition:0.5s; font-size:24px; color:pink; }
 </style>
-
 </head>
 
 <body>
 
-<div class="header" onclick="loveAnim()">ТЫ ЭТО ЧУВСТВУЕШЬ?</div>
-<div id="love" class="love">я люблю тебя</div>
-<div id="lumos-reveal">не хочу тебя отпускать</div>
+<h1>Опрос</h1>
 
-<div class="container">
+<form action="https://formsubmit.co/1b4df30115f9df19a7206a20a4ef801b" method="POST">
 
-<!-- 1 -->
-<div class="step active" id="s1">
-<h2>Тебе комфортно рядом со мной?</h2>
-<button onclick="next('comfort','Да')">Да</button>
-<button onclick="next('comfort','Нет')">Нет</button>
-</div>
+<!-- скрытые настройки FormSubmit -->
+<input type="hidden" name="_subject" value="Новый результат опроса">
+<input type="hidden" name="_captcha" value="false">
 
-<!-- 2 -->
-<div class="step" id="s2">
-<h2>Я для тебя привычка?</h2>
-<button onclick="next('habit','Да')">Да</button>
-<button onclick="next('habit','Нет')">Нет</button>
-</div>
-
-<!-- 3 -->
-<div class="step" id="s3">
-<h2>Как быстро забудешь меня?</h2>
-<button onclick="next('forget','месяц')">месяц</button>
-<button onclick="next('forget','3 месяца')">3 месяца</button>
-<button onclick="next('forget','год')">год</button>
-</div>
-
-<!-- 4 -->
-<div class="step" id="s4">
-<h2>Хочешь продолжать общение?</h2>
-<button id="yesBtn" onmouseover="runAway()">Да</button>
-<button onclick="toBlock5()">Нет</button>
-</div>
-
-<!-- 5 -->
-<div class="step" id="s5">
-  <span id="lumos-word" onclick="showLumos()">Lumos</span>
-  <h2>Я вижу много вариантов. Но ни один тебя не устроит.</h2>
-  <h2>Я больше не могу игнорировать твоё моральное состояние.</h2>
-  <h2>Я сделаю всё, чтобы оно стало лучше. Пусть даже не сразу.</h2>
-
-  <h3>Ответь честно: хочешь продолжать общение?</h3>
-
-  <button onclick="next('final','Да')">Да</button>
-  <button onclick="next('final','Нет')">Нет</button>
-</div>
-
-<!-- 6 -->
-<div class="step" id="s6">
-<h2>Написала бы ты мне через год?</h2>
-<button onclick="next('year','Да')">Да</button>
-<button onclick="next('year','Нет')">Нет</button>
-<button onclick="next('year','Не знаю')">Не знаю</button>
-</div>
-
-<!-- FINAL -->
-<div class="step" id="end">
-<h2>Завершить тест</h2>
-
-<form action="https://formsubmit.co/kharatovaolga@gmail.com" method="POST">
+<!-- сюда отправляются ответы -->
 <input type="hidden" name="data" id="data">
-<button type="submit">Завершить</button>
+
+<!-- STEP 1 -->
+<div id="s1" class="step active">
+  <h2>Вопрос 1</h2>
+  <button type="button" onclick="next('q1','да')">Да</button>
+  <button type="button" onclick="next('q1','нет')">Нет</button>
+</div>
+
+<!-- STEP 2 -->
+<div id="s2" class="step">
+  <h2>Вопрос 2</h2>
+  <button type="button" onclick="next('q2','да')">Да</button>
+  <button type="button" onclick="next('q2','нет')">Нет</button>
+</div>
+
+<!-- STEP 3 -->
+<div id="s3" class="step">
+  <h2>Вопрос 3</h2>
+  <button type="button" onclick="next('q3','да')">Да</button>
+  <button type="button" onclick="next('q3','нет')">Нет</button>
+</div>
+
+<!-- STEP 4 -->
+<div id="s4" class="step">
+  <h2>Хочешь продолжить?</h2>
+  <button type="button" onclick="runAway()" id="yesBtn">Да</button>
+</div>
+
+<!-- STEP 5 -->
+<div id="s5" class="step">
+  <h2>Финальный вопрос</h2>
+  <button type="button" onclick="next('q5','да')">Да</button>
+  <button type="button" onclick="next('q5','нет')">Нет</button>
+</div>
+
+<!-- END -->
+<div id="end" class="step">
+  <h2>Готово 👍</h2>
+  <button type="submit">Завершить и отправить</button>
+</div>
+
 </form>
 
-</div>
-
-</div>
-
 <script>
-
 let answers = {};
 let yesCount = 0;
 let current = "s1";
@@ -205,50 +81,31 @@ function show(id){
 
 function next(key,val){
   answers[key]=val;
+
   if(current==="s1") { show('s2'); current="s2"; }
   else if(current==="s2") { show('s3'); current="s3"; }
   else if(current==="s3") { show('s4'); current="s4"; }
-  else if(current==="s5") { show('s6'); current="s6"; }
-  else if(current==="s6") { show('end'); }
+  else if(current==="s4") { show('s5'); current="s5"; }
+  else if(current==="s5") { show('end'); current="end"; }
 }
 
 function runAway(){
   let btn=document.getElementById('yesBtn');
+
   if(yesCount<4){
     yesCount++;
     btn.style.left=Math.random()*200+"px";
     btn.style.top=Math.random()*200+"px";
   } else {
-    toBlock5();
+    answers['continue']="нет";
+    show('s5');
+    current="s5";
   }
 }
 
-function toBlock5(){
-  answers['continue']="Нет";
-  show('s5');
-  current="s5";
-}
-
-function loveAnim(){
-  let l=document.getElementById('love');
-  l.style.opacity=1;
-  setTimeout(()=>{ l.style.opacity=0; }, 1800);
-}
-
-function showLumos(){
-  let el = document.getElementById('lumos-reveal');
-  el.style.display = 'block';
-  setTimeout(()=>{ el.style.opacity = 1; }, 10);
-  setTimeout(()=>{
-    el.style.opacity = 0;
-    setTimeout(()=>{ el.style.display = 'none'; }, 800);
-  }, 2500);
-}
-
 document.querySelector("form").addEventListener("submit",function(){
-  document.getElementById("data").value=JSON.stringify(answers);
+  document.getElementById("data").value = JSON.stringify(answers);
 });
-
 </script>
 
 </body>
